@@ -7,14 +7,7 @@ elgg_push_context("$identifier/all");
 
 $segments = (array) elgg_extract('segments', $vars, array());
 
-if (elgg_get_plugin_setting('limited_groups', 'groups') != 'yes' || elgg_is_admin_logged_in()) {
-	elgg_register_menu_item('title', array(
-		'name' => 'add',
-		'text' => elgg_echo("$identifier:add"),
-		'href' => "$identifier/add",
-		'link_class' => 'elgg-button elgg-button-action',
-	));
-}
+group_list_register_title_buttons(null, $identifier);
 
 $page = elgg_extract('page', $vars, 'all');
 $title = elgg_echo("$identifier:list:$page");

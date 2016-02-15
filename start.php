@@ -46,7 +46,7 @@ function group_list_router($hook, $type, $return, $params) {
 	if (!is_array($return)) {
 		return;
 	}
-	
+
 	// Initial page identifier might be different from /groups
 	// i.e. subtype specific handler e.g. /schools
 	$initial_identifier = elgg_extract('identifier', $params);
@@ -280,6 +280,74 @@ function group_list_get_profile_buttons(ElggGroup $entity) {
 	}
 
 	return $items;
+}
+
+/**
+ * Returns title buttons to be registered on group pages
+ *
+ * @param ElggGroup $entity     Group entity
+ * @param string    $identifier Page identifier
+ * @param string    $menu       Menu name
+ * @return void
+ */
+function group_list_register_title_buttons(ElggGroup $entity = null, $identifier = 'groups', $menu = 'title') {
+	$buttons = group_list_get_title_buttons($entity, $identifier);
+	foreach ($buttons as $button) {
+		elgg_register_menu_item($menu, $button);
+	}
+}
+
+/**
+ * Returns title buttons to be registered on group pages
+ *
+ * @param ElggGroup $entity     Group entity
+ * @param string    $identifier Page identifier
+ * @return ElggMenuItem[]
+ */
+function group_list_get_title_buttons(ElggGroup $entity = null, $identifier = 'groups') {
+
+	$buttons = array();
+	if ($entity) {
+		$buttons = group_list_get_profile_buttons($entity);
+		foreach ($buttons as &$button) {
+			$button->addClass('elgg-button elgg-button-action');
+		}
+	} else {
+		if (elgg_get_plugin_setting('limited_groups', 'groups') != 'yes' || elgg_is_admin_logged_in()) {
+			$page_owner = elgg_get_page_owner_entity();
+			if (!$page_owner) {
+				$page_owner = elgg_get_logged_in_user_entity();
+			}
+			$subtypes = is_callable('group_subtypes_get_subtypes') ? group_subtypes_get_subtypes($identifier) : array();
+			if (empty($subtypes)) {
+				$subtypes = array(ELGG_ENTITIES_ANY_VALUE);
+			}
+			foreach ($subtypes as $subtype) {
+				if ($page_owner && $page_owner->canWriteToContainer(0, 'group', $subtype)) {
+					// can write to container ignores hierarchy logic
+					$params = array(
+						'parent' => $page_owner,
+						'type' => 'group',
+						'subtype' => $subtype,
+					);
+					$can_contain = elgg_trigger_plugin_hook('permissions_check:parent', 'group', $params, true);
+					if ($can_contain) {
+						$buttons[] = ElggMenuItem::factory(array(
+									'name' => "$subtype:add",
+									'text' => elgg_echo("groups:add:$subtype"),
+									'href' => "{$identifier}/add/{$page_owner->guid}/{$subtype}",
+									'link_class' => 'elgg-button elgg-button-action',
+						));
+					}
+				}
+			}
+		}
+	}
+
+	$params = array(
+		'entity' => $entity,
+	);
+	return elgg_trigger_plugin_hook('title_buttons', $identifier, $params, $buttons);
 }
 
 /**
