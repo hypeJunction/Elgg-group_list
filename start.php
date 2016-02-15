@@ -335,7 +335,7 @@ function group_list_get_title_buttons(ElggGroup $entity = null, $identifier = 'g
 						$buttons[] = ElggMenuItem::factory(array(
 									'name' => "$subtype:add",
 									'text' => elgg_echo("groups:add:$subtype"),
-									'href' => "{$identifier}/add/{$page_owner->guid}/{$subtype}",
+									'href' => "{$identifier}/add/{$page_owner->guid}?__subtype={$subtype}",
 									'link_class' => 'elgg-button elgg-button-action',
 						));
 					}
