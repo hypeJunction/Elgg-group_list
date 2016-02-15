@@ -85,6 +85,8 @@ function group_list_router($hook, $type, $return, $params) {
 			$username = array_shift($segments);
 			break;
 		case 'search' :
+		case 'all' :
+		case '' :
 			break;
 		case 'discussions' :
 			echo elgg_view_resource('groups/discussions', $resource_params);
