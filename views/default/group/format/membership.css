@@ -1,0 +1,30 @@
+.elgg-menu-group-membership > li {
+	display: inline-block;
+}
+.elgg-menu-group-membership > li:not(.hidden):after {
+	content: "|";
+	padding: 0 5px;
+	display: inline-block;
+	color: #bbb;
+}
+.elgg-menu-group-membership > li:not(.hidden):last-of-type:after {
+	content: none;
+}
+.elgg-menu-group-membership > li > a {
+	display: inline-block;
+}
+.elgg-menu-group-membership > li > a[data-confirm] {
+	color: #bbb;
+}
+.elgg-group-subtitle-element {
+	font-style: normal;
+}
+.elgg-group-subtitle-element:after {
+	content: "|";
+	padding: 0 5px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.elgg-group-subtitle-element:last-of-type:after {
+	content: none;
+}
