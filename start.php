@@ -318,7 +318,7 @@ function group_list_get_title_buttons(ElggGroup $entity = null, $identifier = 'g
 			if (!$page_owner) {
 				$page_owner = elgg_get_logged_in_user_entity();
 			}
-			$subtypes = is_callable('group_subtypes_get_subtypes') ? group_subtypes_get_subtypes($identifier) : array();
+			$subtypes = get_registered_entity_types('group');
 			if (empty($subtypes)) {
 				$subtypes = array(ELGG_ENTITIES_ANY_VALUE);
 			}
@@ -335,7 +335,7 @@ function group_list_get_title_buttons(ElggGroup $entity = null, $identifier = 'g
 						$buttons[] = ElggMenuItem::factory(array(
 									'name' => "$subtype:add",
 									'text' => elgg_echo("groups:add:$subtype"),
-									'href' => "{$identifier}/add/{$page_owner->guid}?__subtype={$subtype}",
+									'href' => "{$identifier}/add/{$page_owner->guid}/{$subtype}",
 									'link_class' => 'elgg-button elgg-button-action',
 						));
 					}
