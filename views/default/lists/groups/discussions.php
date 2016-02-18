@@ -4,7 +4,7 @@ $dbprefix = elgg_get_config('dbprefix');
 
 $options = array(
 	'types' => 'object',
-	'subtypes' => 'discussion',
+	'subtypes' => 'groupforumtopic',
 	'order_by' => 'e.last_action desc',
 	'limit' => 40,
 	'full_view' => false,

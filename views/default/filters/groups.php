@@ -19,9 +19,7 @@ $tabs = [
 //	$tabs['invitations'] = "$identifier/invitations/$user->username";
 //}
 
-if (elgg_is_active_plugin('discussions')) {
-	$tabs['discussions'] = "$identifier/discussions";
-}
+$tabs['discussions'] = "$identifier/discussions";
 
 foreach ($tabs as $tab => $url) {
 	elgg_register_menu_item('filter', array(
