@@ -16,8 +16,8 @@ elgg_register_event_handler('init', 'system', 'group_list_init');
  */
 function group_list_init() {
 
-	elgg_extend_view('elgg.css', 'group/format/membership.css');
-	elgg_extend_view('admin.css', 'group/format/membership.css');
+	elgg_extend_view('css/elgg', 'group/format/membership.css');
+	elgg_extend_view('css/admin', 'group/format/membership.css');
 
 	elgg_register_plugin_hook_handler('route', 'groups', 'group_list_router', 999);
 
