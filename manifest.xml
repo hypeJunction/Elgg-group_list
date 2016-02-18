@@ -25,6 +25,11 @@
 
 	<requires>
 		<type>plugin</type>
+		<name>forms_api</name>
+	</requires>
+
+	<requires>
+		<type>plugin</type>
 		<name>group_sort</name>
 	</requires>
 
