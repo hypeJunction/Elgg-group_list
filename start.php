@@ -89,7 +89,7 @@ function group_list_router($hook, $type, $return, $params) {
 		case '' :
 			break;
 		case 'discussions' :
-			echo elgg_view_resource('groups/discussions', $resource_params);
+			echo elgg_view('resources/groups/discussions', $resource_params);
 			return false;
 		default:
 			return;
@@ -98,7 +98,7 @@ function group_list_router($hook, $type, $return, $params) {
 	$resource_params['page'] = $page;
 	$resource_params['segments'] = $segments;
 	if (!$username || $username == $user->username) {
-		echo elgg_view_resource('groups/all', $resource_params);
+		echo elgg_view('resources/groups/all', $resource_params);
 	} else {
 		$resource_params['username'] = $username;
 		echo elgg_view_resource("groups/$page", $resource_params);
