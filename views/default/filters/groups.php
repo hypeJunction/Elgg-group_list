@@ -1,7 +1,19 @@
 <?php
 
 $identifier = elgg_extract('identifier', $vars, 'groups');
-$filter_context = elgg_extract('filter_context', $vars, elgg_extract('selected', $vars, 'all'));
+$filter_context = elgg_extract('filter_context', $vars, elgg_extract('selected', $vars, 'newest'));
+
+$vars['selected'] = $filter_context;
+
+$filter = elgg_view('groups/group_sort_menu', $vars);
+if ($old_filter) {
+	echo $old_filter;
+	return;
+}
+
+if ($filter_context == 'newest') {
+	$filter_context = 'all';
+}
 
 $tabs = [
 	'all' => "$identifier/all",
