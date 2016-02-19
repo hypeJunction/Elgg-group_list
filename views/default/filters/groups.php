@@ -5,7 +5,7 @@ $filter_context = elgg_extract('filter_context', $vars, elgg_extract('selected',
 
 $vars['selected'] = $filter_context;
 
-$filter = elgg_view('groups/group_sort_menu', $vars);
+$old_filter = elgg_view('groups/group_sort_menu', $vars);
 if ($old_filter) {
 	echo $old_filter;
 	return;
