@@ -30,6 +30,8 @@ function group_list_init() {
 	elgg_register_plugin_hook_handler('view_vars', 'group/elements/summary', 'group_list_filter_listing_subtitle');
 
 	elgg_register_plugin_hook_handler('view', 'widgets/a_users_groups/content', 'group_list_users_groups_widget_access');
+
+	elgg_register_plugin_hook_handler('register', 'menu:filter', 'group_list_setup_filter_menu', 999);
 }
 
 /**
@@ -487,4 +489,38 @@ function group_list_users_groups_widget_access($hook, $type, $return, $params) {
 	if (!group_list_can_view_membership($owner)) {
 		return elgg_format_element('p', ['class' => 'elgg-no-results'], elgg_echo('user:groups:no_access'));
 	}
+}
+
+/**
+ * Setup filter menu
+ * Rewrites group/al?filter= URLs
+ * 
+ * @param string         $hook   "register"
+ * @param string         $type   "menu:filter"
+ * @param ElggMenuItem[] $return Menu
+ * @param array          $params Hook params
+ * @return ElggMenuItem[]
+ */
+function group_list_setup_filter_menu($hook, $type, $return, $params) {
+
+	foreach ($return as &$item) {
+		if (!$item instanceof ElggMenuItem) {
+			continue;
+		}
+
+		$identifier = _elgg_services()->request->getFirstUrlSegment();
+		$site_url = elgg_get_site_url();
+
+		$href = elgg_normalize_url($item->getHref());
+		$href = trim($href, '/');
+
+		$pattern = "`^{$site_url}(groups)(/all)(.*)(filter=)([A-z]+)(&*)(.*)$`i";
+
+		$href = preg_replace($pattern, "{$identifier}$2/$5$3$7", $href);
+		$href = trim($href, '?');
+
+		$item->setHref($href);
+	}
+	
+	return $return;
 }
