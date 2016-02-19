@@ -146,7 +146,7 @@ function group_list_entity_menu_setup($hook, $type, $return, $params) {
 	if (!elgg_get_plugin_setting('use_membership_view', 'group_list')) {
 		return;
 	}
-	
+
 	$remove = array('membership', 'members', 'feature', 'unfeature');
 	foreach ($return as $index => $item) {
 		if (in_array($item->getName(), $remove)) {
@@ -319,33 +319,42 @@ function group_list_get_title_buttons(ElggGroup $entity = null, $identifier = 'g
 			$button->addClass('elgg-button elgg-button-action');
 		}
 	} else {
-		if (elgg_get_plugin_setting('limited_groups', 'groups') != 'yes' || elgg_is_admin_logged_in()) {
-			$page_owner = elgg_get_page_owner_entity();
-			if (!$page_owner) {
-				$page_owner = elgg_get_logged_in_user_entity();
-			}
+		$page_owner = elgg_get_page_owner_entity();
+		if (!$page_owner) {
+			$page_owner = elgg_get_logged_in_user_entity();
+		}
+		$register_buttons = elgg_get_plugin_setting('limited_groups', 'groups') != 'yes' || elgg_is_admin_logged_in();
+		if ($page_owner instanceof ElggGroup && elgg_is_active_plugin('au_subgroups')) {
+			// Do no register Add buttons for each allowed subtype if au_subgroups is enabled
+			// au_subgroups adds a single Add Sub-Group button, which then handles the rest
+			$register_buttons = false;
+		}
+
+		if ($page_owner && $register_buttons) {
 			$subtypes = get_registered_entity_types('group');
 			if (empty($subtypes)) {
 				$subtypes = array(ELGG_ENTITIES_ANY_VALUE);
 			}
 			foreach ($subtypes as $subtype) {
-				if ($page_owner && $page_owner->canWriteToContainer(0, 'group', $subtype)) {
-					// can write to container ignores hierarchy logic
-					$params = array(
-						'parent' => $page_owner,
-						'type' => 'group',
-						'subtype' => $subtype,
-					);
-					$can_contain = elgg_trigger_plugin_hook('permissions_check:parent', 'group', $params, true);
-					if ($can_contain) {
-						$buttons[] = ElggMenuItem::factory(array(
-									'name' => "$subtype:add",
-									'text' => elgg_echo("groups:add:$subtype"),
-									'href' => "{$identifier}/add/{$page_owner->guid}/{$subtype}",
-									'link_class' => 'elgg-button elgg-button-action',
-						));
-					}
+				if (!$page_owner->canWriteToContainer(0, 'group', $subtype)) {
+					continue;
 				}
+				// can write to container ignores hierarchy logic
+				$params = array(
+					'parent' => $page_owner,
+					'type' => 'group',
+					'subtype' => $subtype,
+				);
+				$can_contain = elgg_trigger_plugin_hook('permissions_check:parent', 'group', $params, true);
+				if (!$can_contain) {
+					continue;
+				}
+				$buttons[] = ElggMenuItem::factory(array(
+							'name' => "$subtype:add",
+							'text' => elgg_echo("groups:add:$subtype"),
+							'href' => "{$identifier}/add/{$page_owner->guid}/{$subtype}",
+							'link_class' => 'elgg-button elgg-button-action',
+				));
 			}
 		}
 	}
@@ -375,7 +384,7 @@ function group_list_filter_listing_subtitle($hook, $type, $return, $params) {
 	if (!elgg_get_plugin_setting('use_membership_view', 'group_list')) {
 		return;
 	}
-	
+
 	$subtitle = array();
 	if ($entity->isPublicMembership()) {
 		$mem = elgg_echo('group:membership:open');
@@ -529,6 +538,6 @@ function group_list_setup_filter_menu($hook, $type, $return, $params) {
 
 		$item->setHref($href);
 	}
-	
+
 	return $return;
 }
