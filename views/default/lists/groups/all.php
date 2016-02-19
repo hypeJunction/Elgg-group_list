@@ -22,7 +22,7 @@ $list_options = array(
 	'base_url' => $base_url,
 	'list_id' => 'groups',
 	'auto_refresh' => false,
-	'item_view' => 'group/format/membership',
+	'item_view' => elgg_get_plugin_setting('use_membership_view', 'group_list') ? 'group/format/membership' : null,
 );
 
 $getter_options = array(

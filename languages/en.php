@@ -34,4 +34,6 @@ return [
 	'group_list:usersettings:title' => 'Groups List',
 	'user:groups:no_access' => 'User has restricted access to their group membership list',
 
+	'group:list:use_membership_view' => 'Use custom group listing view',
+	'group:list:use_membership_view:help' => 'Replace the default group listing with an extended one',
 ];
