@@ -21,7 +21,6 @@ function group_list_init() {
 
 	elgg_register_plugin_hook_handler('route', 'groups', 'group_list_router', 999);
 
-	elgg_unregister_plugin_hook_handler('register', 'menu:entity', 'groups_entity_menu_setup');
 	elgg_register_plugin_hook_handler('register', 'menu:entity', 'group_list_entity_menu_setup');
 	elgg_register_plugin_hook_handler('register', 'menu:membership', 'group_list_membership_group_menu_setup');
 
@@ -144,8 +143,13 @@ function group_list_entity_menu_setup($hook, $type, $return, $params) {
 		return;
 	}
 
+	if (!elgg_get_plugin_setting('use_membership_view', 'group_list')) {
+		return;
+	}
+	
+	$remove = array('membership', 'members', 'feature', 'unfeature');
 	foreach ($return as $index => $item) {
-		if (in_array($item->getName(), array('access', 'delete'))) {
+		if (in_array($item->getName(), $remove)) {
 			unset($return[$index]);
 		}
 	}
@@ -368,6 +372,10 @@ function group_list_filter_listing_subtitle($hook, $type, $return, $params) {
 		return;
 	}
 
+	if (!elgg_get_plugin_setting('use_membership_view', 'group_list')) {
+		return;
+	}
+	
 	$subtitle = array();
 	if ($entity->isPublicMembership()) {
 		$mem = elgg_echo('group:membership:open');

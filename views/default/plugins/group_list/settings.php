@@ -25,3 +25,14 @@ echo elgg_view_input('select', array(
 	'label' => elgg_echo('user:groups:allow_visibility_override'),
 	'help' => elgg_echo('user:groups:allow_visibility_override:help'),
 ));
+
+echo elgg_view_input('select', array(
+	'name' => 'params[use_membership_view]',
+	'value' => isset($entity->use_membership_view) ? $entity->use_membership_view : false,
+	'options_values' => array(
+		0 => elgg_echo('option:no'),
+		1 => elgg_echo('option:yes'),
+	),
+	'label' => elgg_echo('group:list:use_membership_view'),
+	'help' => elgg_echo('group:list:use_membership_view:help'),
+));
