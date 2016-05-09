@@ -25,7 +25,7 @@ if ($user->guid == elgg_get_logged_in_user_guid()) {
 	$title = elgg_echo("$identifier:yours");
 } else {
 	$title = elgg_echo("$identifier:user", array($user->name));
-	elgg_push_breadcumb($user->name, $user->getURL());
+	elgg_push_breadcrumb($user->name, $user->getURL());
 }
 elgg_push_breadcrumb($title);
 
