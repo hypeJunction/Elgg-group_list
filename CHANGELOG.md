@@ -1,3 +1,9 @@
+<a name="1.0.4"></a>
+## [1.0.4](https://github.com/hypeJunction/Elgg-group_list/compare/1.0.3...v1.0.4) (2016-05-12)
+
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/hypeJunction/Elgg-group_list/compare/1.0.1...v1.0.3) (2016-02-22)
 
