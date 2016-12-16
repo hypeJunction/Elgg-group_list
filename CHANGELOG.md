@@ -1,3 +1,19 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/hypeJunction/Elgg-group_list/compare/1.0.4...v2.0.0) (2016-12-16)
+
+
+### Features
+
+* **deps:** upgrade to latest dependencies ([8cc1371](https://github.com/hypeJunction/Elgg-group_list/commit/8cc1371))
+
+
+### BREAKING CHANGES
+
+* deps: Now requires Elgg 2.3. Lists hypeLists as a composer dependency that
+provides group_sort
+
+
+
 <a name="1.0.4"></a>
 ## [1.0.4](https://github.com/hypeJunction/Elgg-group_list/compare/1.0.3...v1.0.4) (2016-05-12)
 
