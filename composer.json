@@ -17,8 +17,7 @@
 	"require": {
 		"php": ">=5.5",
 		"composer/installers": "~1.0",
-		"hypejunction/group_sort": "~1.0",
-		"hypejunction/forms_api": "~1.0"
+		"hypejunction/hypelists": "~4.0"
 	}
 }
 
